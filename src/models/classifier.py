@@ -1,17 +1,16 @@
 import torch.nn as nn
-import torchinfo
+import torch
 
+from . import backbones
+from .projection import projection
 
-from src.models import backbones
-from projection import projection
-
-__all__ = ['classifier']
+__all__ = ['get_classifier']
 
 class Classifier(nn.Module):
 
     def __init__(self, str_backbone, num_classes=10):
         super(Classifier, self).__init__()
-        self.backbone = backbones.__dict__[str_backbone]
+        self.backbone = backbones.__dict__[str_backbone]()
         self.projector = projection(self.backbone.last_channel_num, 128)
         self.linear_classifier = nn.Linear(128, num_classes)
 
@@ -31,7 +30,7 @@ class Classifier(nn.Module):
 
         return class_preds
 
-def classifier(str_backbone, num_classes=10):
+def get_classifier(str_backbone, num_classes=10):
     return Classifier(str_backbone, num_classes=num_classes)
 
 
@@ -41,5 +40,5 @@ if __name__ == "__main__":
     import sys
 
     model_name = sys.argv[1]
-    model = classifier(model_name)
+    model = get_classifier(model_name)
     summary(model, (1, 3, 32, 32))

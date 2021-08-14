@@ -1,10 +1,11 @@
 '''LeNet in PyTorch.'''
 import torch.nn as nn
 
+__all__ = ['tiny10']
 
 class Tiny10(nn.Module):
 
-    def __init__(self, n_c):
+    def __init__(self, **kwargs):
         super(Tiny10, self).__init__()
         relu = nn.ReLU
 
@@ -73,5 +74,5 @@ class Tiny10(nn.Module):
         return x
 
 def tiny10(**kwargs):
-    encoder = Tiny10(28, 2, **kwargs)
+    encoder = Tiny10()
     return encoder

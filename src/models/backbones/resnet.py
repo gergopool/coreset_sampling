@@ -196,7 +196,7 @@ class ResNet(nn.Module):
             block, num_out_filters, layers[3], stride=2, dilate=replace_stride_with_dilation[2]
         )
         self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
-        self.last_channel_num = num_out_filters
+        self.last_channel_num = num_out_filters * 4
 
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
